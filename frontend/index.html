@@ -1,0 +1,66 @@
+<!-- this a fully ai genereated demo since I couldn't find ready and 
+ containerizing templates -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docker Final Project</title>
+    
+    <!-- css here and can be moved to some where else -->
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; background-color: #f4f4f9; }
+        input, button { padding: 10px; margin: 5px; font-size: 16px; }
+        ul { list-style: none; padding: 0; }
+        li { background: #fff; margin: 5px auto; padding: 10px; width: 300px; border-radius: 5px; box-shadow: 0 0 5px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body>
+    <!-- to reflect the bind mount workflow try to change this title over here -->
+    <h1>My Docker Compose Project!</h1>
+    
+    <!-- as the structure denote yes it's a counter like test page since no one will be able to deal with
+    fullstack templates -->
+
+
+    <input type="text" id="itemName" placeholder="Enter an item">
+    <button onclick="addItem()">Add to DB</button> 
+    <ul id="itemList"></ul>
+
+    <script>
+        // simple api endpoint for testing
+        const API_URL = 'http://localhost:3000/api/items';
+
+        // must be async so it does not hurdles the execution of our webapp
+        async function fetchItems() {
+            // this method fetchs all the item from the api to display it
+            const res = await fetch(API_URL);
+            const items = await res.json();
+            document.getElementById('itemList').innerHTML = items.map(i => `<li>${i.name}</li>`).join('');
+        }
+
+        async function addItem() {
+            // this one sends data to the backend to push it in the db which is mongo
+            const name = document.getElementById('itemName').value;
+            // if the user entered empty field it will not continue the execution of this method 
+            if(!name) return;
+            // send an http post request with the entered name and the jsonified version of name
+            await fetch(API_URL, {
+                // the http request type
+                method: 'POST',
+                // don't modify that this define the tyoe of data we are sending
+                headers: { 'Content-Type': 'application/json' },
+                // what we are seding
+                body: JSON.stringify({ name })
+            });
+            // update the input text to empty to accept the next possible input
+            document.getElementById('itemName').value = '';
+            // call the method to display the new data
+            fetchItems();
+        }
+        // call the method for the first time to load the sample
+        fetchItems();
+    </script>
+</body>
+</html>
