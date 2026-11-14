@@ -11,8 +11,8 @@ app.use(cors());
 
 //
 mongoose
-  // URGENT replce "127.0.0.1" into the define docker network
-  .connect("mongodb://127.0.0.1:27017/docker-app")
+  // "db" is the MongoDB service name on the shared Docker network (see docker-compose.yml)
+  .connect(process.env.MONGO_URL || "mongodb://db:27017/docker-app")
 
   // this is a promise which is basicly try catch but but function way
 
