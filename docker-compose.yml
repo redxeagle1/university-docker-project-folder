@@ -1,0 +1,47 @@
+services:
+
+  db:
+    build: ./db
+    container_name: mongo-db
+    ports:
+      - "27017:27017"
+    volumes:
+      - app-data:/data/db            # named volume: data survives container removal
+    networks:
+      - app-network
+
+  backend:
+    build: ./backend
+    container_name: backend
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGO_URL=mongodb://db:27017/docker-app   # "db" = service name on the shared network
+    volumes:
+      - ./backend:/app               # bind mount: edit code on your machine -> live reload
+      - /app/node_modules            # keep the container's node_modules (don't overwrite it from the host)
+      - app-data:/shared-data:ro     # the same shared volume (read-only)
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - "8080:80"
+    volumes:
+      - ./frontend:/usr/share/nginx/html   # bind mount: edit index.html -> refresh the browser
+      - app-data:/shared-data:ro           # the same shared volume (read-only)
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  app-data:
