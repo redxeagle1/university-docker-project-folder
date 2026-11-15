@@ -2,7 +2,7 @@
 FROM nginx:alpine
 
 # Copy the site into Nginx's default web root
-COPY index.html /usr/share/nginx/html/index.html
+COPY . /usr/share/nginx/html/
 
 EXPOSE 80
 
