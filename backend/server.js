@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 
 
-const app = express(); // an onject name app of the express.js
+const app = express(); // an object name app of the express.js
 
 // not a backend dev to explain these 2 line nor a nodejs one
 app.use(express.json()); 
@@ -14,15 +14,15 @@ mongoose
   // "db" is the MongoDB service name on the shared Docker network (see docker-compose.yml)
   .connect(process.env.MONGO_URL || "mongodb://db:27017/docker-app")
 
-  // this is a promise which is basicly try catch but but function way
+  // this is a promise which is basically try catch but but function way
 
   .then(
-    // this is anonymous method basic a lambda method
+    // this is anonymous method basically a lambda method
     () => console.log("Connected to MongoDB"),
   )
   .catch((err) => console.error(err));
 
-// creat our database scheme
+// cheat our database scheme
 const Item = mongoose.model("Item", new mongoose.Schema({ name: String }));
 
 // uses the api we made in the frontend to handle the post and get requests

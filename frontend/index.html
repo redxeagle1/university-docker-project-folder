@@ -1,4 +1,4 @@
-<!-- this a fully ai genereated demo since I couldn't find ready and 
+<!-- this a fully ai generated demo since I couldn't find ready and 
  containerizing templates -->
 
 <!DOCTYPE html>
@@ -34,7 +34,7 @@
 
         // must be async so it does not hurdles the execution of our webapp
         async function fetchItems() {
-            // this method fetchs all the item from the api to display it
+            // this method fetch all the item from the api to display it
             const res = await fetch(API_URL);
             const items = await res.json();
             document.getElementById('itemList').innerHTML = items.map(i => `<li>${i.name}</li>`).join('');
@@ -45,13 +45,13 @@
             const name = document.getElementById('itemName').value;
             // if the user entered empty field it will not continue the execution of this method 
             if(!name) return;
-            // send an http post request with the entered name and the jsonified version of name
+            // send an http post request with the entered name and the jsonfield version of name
             await fetch(API_URL, {
                 // the http request type
                 method: 'POST',
-                // don't modify that this define the tyoe of data we are sending
+                // don't modify that this define the type of data we are sending
                 headers: { 'Content-Type': 'application/json' },
-                // what we are seding
+                // what we are sending
                 body: JSON.stringify({ name })
             });
             // update the input text to empty to accept the next possible input
